@@ -8,26 +8,28 @@
 %\usepackage{nopageno}
 \documentclass[12pt, landscape, a4paper]{article}
 \usepackage{lscape}
-\usepackage{mathptmx}
+%\usepackage{mathptmx}
 \usepackage{moresize}
 \usepackage[sfdefault]{roboto}
-
-\pagenumbering{gobble} 
+\usepackage{lipsum}
+\usepackage[document]{ragged2e}
+\frenchspacing
 \pagestyle{empty}
-\pdfpagewidth 13.5in
-\pdfpageheight 11in
-\headheight 0pt
-\headsep 0pt
-\footskip .25in
-\marginparwidth 0pt
-\marginparsep 0pt
-\oddsidemargin \dimexpr 1in -1in
-\topmargin \dimexpr 1in -1in
-\textwidth \dimexpr \pdfpagewidth -2.5\oddsidemargin -2.5in
-\textheight \dimexpr \pdfpageheight -2.5\topmargin -2.5in
-\linespread{1.5}
+\usepackage{multicol}
+\usepackage{color}
+
+\usepackage{comment}
+
+\setlength{\columnseprule}{1pt}
+\def\columnseprulecolor{\color{blue}}
+%\usepackage{setspace}
+%\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage[lmargin=1cm, rmargin=1cm, tmargin=1cm, bmargin=1cm]{geometry}
 
 \begin{document}
+%\begin{multicols}{0}
 \Large
 
 

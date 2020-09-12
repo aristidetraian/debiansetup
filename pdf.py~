@@ -40,7 +40,7 @@ def wfo(fileinput,text):
 def concat2vid(vid1,vid2,vid3,vid4,vid5,out):
    
    try:
-       os.system("ffmpeg -i "+vid1+ " -i "+vid2+ " -i "+vid3+ " -i "+vid4+ " -i "+vid5+ " -filter_complex \"[0:v][0:a][1:v][1:a][2:v][2:a][3:v][3:a][4:v][4:a] concat=n=5:v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\" -b:a 192k " + out)
+       os.system("ffmpeg -i "+vid1+ " -i "+vid2+ " -i "+vid3+ " -i "+vid4+ " -i "+vid5+ " -filter_complex \"[0:v][0:a][1:v][1:a][2:v][2:a][3:v][3:a][4:v][4:a] concat=n=5:v=1:a=1 [v] [a]\" -map \"[v]\" -map \"[a]\" " + out)
       
    except ValueError:
        return "can not concate"
@@ -50,20 +50,37 @@ def main():
    #concat2vid("0process.txt.avi","1process.txt.avi", "out.avi")
    
    #we are going to create a while loop until only one video will remain
+   
+   string2=rff("text.txt")
+   string2=string2.replace("\\","\\\\")
+   string2=string2.replace("%","\%")
+   string2=string2.replace("$","\$")
+   string2=string2.replace("&","\&")
+   
+   string2=string2.replace("#","\#")
+   stringout=rff("text1.tex")+string2+"\end{document}"
+   wfo("latex.tex",stringout)
+   os.system("pdflatex latex.tex")
+   os.system("pdftk latex.pdf burst")
+   
+   #os.system("rm latex.pdf")
+   
    try:
-       os.system("ls -1v *.avi > navi.txt")
+       os.system("ls -1v pg* > navi.txt")
 
        string1=rff("navi.txt")
+       #string1=string1.replace("\'","\\'")
        arrayavi=string1.splitlines(True)
        if len(arrayavi)>1:
-          for i in range(len(arrayavi)//5):
-             concat2vid(arrayavi[i*5][:-1],arrayavi[i*5+1][:-1],arrayavi[i*5+2][:-1],arrayavi[i*5+3][:-1],arrayavi[i*5+4][:-1],"out.avi")
-             os.system("rm "+arrayavi[i*5][:-1])
-             os.system("rm "+arrayavi[i*5+1][:-1])
-             os.system("rm "+arrayavi[i*5+2][:-1])
-             os.system("rm "+arrayavi[i*5+3][:-1])
-             os.system("rm "+arrayavi[i*5+4][:-1])
-             os.system("mv out.avi "+arrayavi[i*5][:-1])
+          for i in range(len(arrayavi)):
+             os.system("ebook-convert "+arrayavi[i][:-1]+" "+str(i)+".txt")
+             os.system("espeak -s 260 -f "+str(i)+".txt -w "+str(i)+".wav")
+             os.system("convert -density 300 "+arrayavi[i][:-1]+" "+str(i)+".jpeg")
+             os.system("ffmpeg -i "+str(i)+".jpeg -i "+str(i)+".wav -b:a 192k"+str(i)+".avi") 
+             #os.system("mkdir \'"+arrayavi[i][:-6]+"\'\n")
+             #os.system("echo \""+"ebook-convert "+arrayavi[i][:-1]+" book"+str(i)+"\\text.txt\"")
+             #os.system("ebook-convert \'"+arrayavi[i][:-1]+"\' \'"+arrayavi[i][:-6]+"\'/text.txt")
+             #os.system("echo \""+"ebook-convert \'"+arrayavi[i][:-1]+"\' \'"+arrayavi[i][:-6]+"\'/text.txt\"")
    except ValueError:
        return "can not create files"
    
