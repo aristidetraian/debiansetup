@@ -72,6 +72,7 @@ def main():
    string2=string2.replace("{"," ")
    string2=string2.replace("}"," ")
    string2=string2.replace("^"," ")
+   string2=string2.replace("_"," ")
    #string2=unicode(string2,errors= "ignore")
    #string2=string2.decode()
    #string2=string2.replace("","")
